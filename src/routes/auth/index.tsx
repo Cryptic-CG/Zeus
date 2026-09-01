@@ -7,7 +7,7 @@ import { mapAuthError } from "@/lib/auth-errors";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Code2, ExternalLink, Loader2 } from "lucide-react";
+import { Code2, ExternalLink, Github, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/auth/")({
@@ -157,6 +157,32 @@ function AuthPage() {
       toast.error(error.message ?? "Google sign-in failed");
     }
     // Browser will redirect to Google; supabase-js handles the callback on return.
+  };
+
+  // "Continue with GitHub" — web OAuth through Supabase (PKCE). On success
+  // supabase-js exchanges the returned ?code= and applies the session; the
+  // existing _authenticated gate picks it up and routes into onboarding /
+  // /chat exactly like Google. GitHub is a full web redirect flow, so it
+  // does not use the Electron desktop bridge (which is Google-only).
+  const handleGithub = async () => {
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "github",
+        options: {
+          redirectTo: `${window.location.origin}/chat`,
+        },
+      });
+      if (error) {
+        setLoading(false);
+        toast.error(error.message ?? "GitHub sign-in failed");
+      }
+      // No error → the browser is redirecting to GitHub; supabase-js
+      // handles the callback/session automatically on return.
+    } catch {
+      setLoading(false);
+      toast.error("Couldn't start GitHub sign-in. Please try again.");
+    }
   };
 
   // Desktop: if the user returns without completing sign-in (or it failed),
@@ -311,6 +337,20 @@ function AuthPage() {
               />
             </svg>
             {desktopWaiting ? "Waiting for browser…" : "Continue with Google"}
+          </Button>
+
+          <Button
+            onClick={handleGithub}
+            disabled={loading || desktopWaiting}
+            variant="outline"
+            className="w-full mt-3"
+          >
+            <Github className="size-4 mr-2" />
+            {loading && !desktopWaiting ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              "Continue with GitHub"
+            )}
           </Button>
 
           {desktopWaiting && (
