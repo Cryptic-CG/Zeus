@@ -170,7 +170,7 @@ function Privacy() {
         <p>
           You can request deletion of your account and associated data at any time from{" "}
           <strong>Settings → Delete account</strong>, or by emailing{" "}
-          <a href="mailto:zeus.ai328@gmail.com">zeus.ai328@gmail.com</a> with the subject line "Data
+          <a href="mailto:support@cryptic.technology">support@cryptic.technology</a> with the subject line "Data
           deletion request" from the email address on your account. We will confirm and process the
           request within 30 days.
         </p>
@@ -201,7 +201,7 @@ function Privacy() {
         </ul>
         <p>
           To exercise any of these rights, email{" "}
-          <a href="mailto:zeus.ai328@gmail.com">zeus.ai328@gmail.com</a>. We respond within 30 days.
+          <a href="mailto:support@cryptic.technology">support@cryptic.technology</a>. We respond within 30 days.
         </p>
 
         <h2>9. Children's privacy</h2>
@@ -228,7 +228,7 @@ function Privacy() {
         <h2>12. Contact</h2>
         <p>
           Questions about this policy or your data? Email{" "}
-          <a href="mailto:zeus.ai328@gmail.com">zeus.ai328@gmail.com</a>.
+          <a href="mailto:support@cryptic.technology">support@cryptic.technology</a>.
         </p>
       </Prose>
     </MarketingLayout>

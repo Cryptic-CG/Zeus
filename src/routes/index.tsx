@@ -200,7 +200,7 @@ const faqs = [
   },
   {
     q: "Do you offer refunds?",
-    a: "30-day money-back guarantee on Pro. Email zeus.ai328@gmail.com.",
+    a: "30-day money-back guarantee on Pro. Email support@cryptic.technology.",
   },
 ];
 

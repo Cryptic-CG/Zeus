@@ -905,10 +905,10 @@ export function ChatWindow({ threadId, initialMessages, initialPrompt }: Props) 
               for being such an active learner — your limit resets automatically next cycle. Need
               more? Email{" "}
               <a
-                href="mailto:zeus.ai328@gmail.com"
+                href="mailto:support@cryptic.technology"
                 className="text-primary hover:underline"
               >
-                zeus.ai328@gmail.com
+                support@cryptic.technology
               </a>
               .
             </p>

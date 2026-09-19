@@ -31,8 +31,8 @@ function Success() {
         <p className="mt-10 text-xs text-muted-foreground">
           A receipt has been emailed to you by Lemon Squeezy. It may take up to a minute for Pro to
           appear in your account. Still not showing after a few minutes? Email{" "}
-          <a href="mailto:zeus.ai328@gmail.com" className="text-primary hover:underline">
-            zeus.ai328@gmail.com
+          <a href="mailto:support@cryptic.technology" className="text-primary hover:underline">
+            support@cryptic.technology
           </a>{" "}
           with your account email and we'll sort it out.
         </p>

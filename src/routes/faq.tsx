@@ -47,7 +47,7 @@ const FAQS = [
   },
   {
     q: "How do refunds work?",
-    a: "We offer a 30-day money-back guarantee on first-time Pro subscriptions. Email zeus.ai328@gmail.com within 30 days of your charge. Refunds are processed within 5–10 business days.",
+    a: "We offer a 30-day money-back guarantee on first-time Pro subscriptions. Email support@cryptic.technology within 30 days of your charge. Refunds are processed within 5–10 business days.",
   },
   {
     q: "Is my data safe?",
@@ -63,7 +63,7 @@ const FAQS = [
   },
   {
     q: "How do I contact support?",
-    a: "Email zeus.ai328@gmail.com or use the form on our Contact page. We respond within 24–48 hours.",
+    a: "Email support@cryptic.technology or use the form on our Contact page. We respond within 24–48 hours.",
   },
 ];
 
