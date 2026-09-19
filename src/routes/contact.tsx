@@ -1,13 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Mail, Briefcase, Clock, Send } from "lucide-react";
+import { Mail, Briefcase, Clock, Copy, Check, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { MarketingLayout, PageHero } from "@/components/MarketingLayout";
 import { toast } from "sonner";
 import { SITE_URL } from "@/lib/site";
+
+const SUPPORT_EMAIL = "support@cryptic.technology";
+const GMAIL_COMPOSE_URL = `https://mail.google.com/mail/?view=cm&fs=1&to=${SUPPORT_EMAIL}&su=[Zeus%20AI]%20Message`;
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -32,21 +32,17 @@ export const Route = createFileRoute("/contact")({
 });
 
 function Contact() {
-  const [sending, setSending] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSending(true);
-    const form = new FormData(e.currentTarget);
-    const subject = encodeURIComponent(`[Zeus AI] ${form.get("subject") ?? "Contact"}`);
-    const body = encodeURIComponent(
-      `Name: ${form.get("name")}\nEmail: ${form.get("email")}\n\n${form.get("message")}`,
-    );
-    window.location.href = `mailto:support@cryptic.technology?subject=${subject}&body=${body}`;
-    setTimeout(() => {
-      setSending(false);
-      toast.success("Opening your email client…");
-    }, 400);
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(SUPPORT_EMAIL);
+      setCopied(true);
+      toast.success("Email copied to clipboard");
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error(`Couldn't copy automatically. Copy ${SUPPORT_EMAIL} manually.`);
+    }
   };
 
   return (
@@ -61,60 +57,32 @@ function Contact() {
         <InfoCard
           icon={<Mail className="size-5" />}
           title="Support"
-          value="support@cryptic.technology"
-          href="mailto:support@cryptic.technology"
+          value={SUPPORT_EMAIL}
+          href={`mailto:${SUPPORT_EMAIL}`}
         />
-        <InfoCard
-          icon={<Briefcase className="size-5" />}
-          title="Business"
-          value="support@cryptic.technology"
-          href="mailto:support@cryptic.technology"
-        />
+        <div>
+          <InfoCard
+            icon={<Briefcase className="size-5" />}
+            title="Business"
+            value={SUPPORT_EMAIL}
+            href={`mailto:${SUPPORT_EMAIL}`}
+          />
+          <div className="mt-3 flex flex-col gap-2">
+            <Button variant="outline" className="w-full" onClick={copyEmail}>
+              {copied ? <Check className="size-4 mr-2" /> : <Copy className="size-4 mr-2" />}
+              {copied ? "Copied!" : "Copy email"}
+            </Button>
+            <Button variant="outline" className="w-full" asChild>
+              <a href={GMAIL_COMPOSE_URL} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="size-4 mr-2" /> Compose in Gmail
+              </a>
+            </Button>
+          </div>
+        </div>
         <InfoCard icon={<Clock className="size-5" />} title="Response time" value="24–48 hours" />
       </section>
 
       <section className="max-w-2xl mx-auto px-6 pb-20">
-        <div className="rounded-2xl border border-border bg-card/60 p-8">
-          <h2 className="text-xl font-semibold">Send us a message</h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            Fill out the form and we'll get back to you shortly.
-          </p>
-          <form onSubmit={onSubmit} className="mt-6 space-y-4">
-            <div className="grid md:grid-cols-2 gap-4">
-              <Field label="Name">
-                <Input name="name" required maxLength={100} placeholder="Jane Doe" />
-              </Field>
-              <Field label="Email">
-                <Input
-                  name="email"
-                  type="email"
-                  required
-                  maxLength={255}
-                  placeholder="you@example.com"
-                />
-              </Field>
-            </div>
-            <Field label="Subject">
-              <Input name="subject" required maxLength={150} placeholder="How can we help?" />
-            </Field>
-            <Field label="Message">
-              <Textarea
-                name="message"
-                required
-                maxLength={2000}
-                rows={6}
-                placeholder="Tell us a bit about what you need…"
-              />
-            </Field>
-            <Button
-              type="submit"
-              disabled={sending}
-              className="bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-glow"
-            >
-              <Send className="size-4 mr-2" /> {sending ? "Sending…" : "Send message"}
-            </Button>
-          </form>
-        </div>
         <p className="text-center text-sm text-muted-foreground mt-6">
           For more information, visit{" "}
           <a
@@ -153,17 +121,8 @@ function InfoCard({
         {icon}
       </div>
       <div className="text-xs uppercase tracking-wider text-muted-foreground">{title}</div>
-      <div className="mt-1 font-medium">{value}</div>
+      <div className="mt-1 font-medium break-all">{value}</div>
     </div>
   );
   return href ? <a href={href}>{Body}</a> : Body;
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <Label className="mb-1.5 block text-sm">{label}</Label>
-      {children}
-    </div>
-  );
 }
