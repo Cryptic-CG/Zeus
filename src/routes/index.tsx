@@ -501,7 +501,7 @@ function Landing() {
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Simple, fair pricing</h2>
           <p className="mt-3 text-muted-foreground">Start free. Upgrade when you're ready.</p>
         </div>
-        <div className="grid md:grid-cols-2 gap-5">
+        <div className="grid md:grid-cols-3 gap-5">
           <PricingCard
             name="Free"
             price="$0"
@@ -539,6 +539,25 @@ function Landing() {
                 asChild
               >
                 <Link to="/pricing">Upgrade to Pro</Link>
+              </Button>
+            }
+          />
+          <PricingCard
+            name="Ultimate"
+            price="$10"
+            period="/ month"
+            tagline="For power users who never want limits"
+            features={[
+              "Everything in Pro",
+              "No Fair Usage Policy — truly unlimited",
+              "Unlimited Engineer Mode runs",
+              "Unlimited Zeus Credits",
+              "Earliest access to new tools",
+              "Priority support",
+            ]}
+            cta={
+              <Button variant="outline" className="w-full" asChild>
+                <Link to="/pricing">Go Ultimate</Link>
               </Button>
             }
           />

@@ -101,6 +101,49 @@ function About() {
         </div>
       </section>
 
+      <section className="max-w-5xl mx-auto px-6 py-10">
+        <h2 className="text-2xl font-semibold mb-6">Who's behind Zeus AI</h2>
+        <div className="grid md:grid-cols-2 gap-4">
+          <div className="rounded-xl border border-border bg-card/60 p-6">
+            <div className="size-10 rounded-lg bg-gradient-primary grid place-items-center mb-4 shadow-glow text-primary-foreground">
+              <Sparkles className="size-5" />
+            </div>
+            <h3 className="font-semibold">Built by Cryptic-CG</h3>
+            <p className="text-sm text-muted-foreground mt-1">
+              Zeus AI is developed and maintained by <strong>Cryptic-CG</strong> — the independent
+              studio behind this project. The codebase is public and developed in the open on{" "}
+              <a
+                href="https://github.com/zeus-ai-cg/Zeus"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                GitHub
+              </a>
+              .
+            </p>
+          </div>
+          <div className="rounded-xl border border-border bg-card/60 p-6">
+            <div className="size-10 rounded-lg bg-gradient-primary grid place-items-center mb-4 shadow-glow text-primary-foreground">
+              <Users className="size-5" />
+            </div>
+            <h3 className="font-semibold">Created by Haider</h3>
+            <p className="text-sm text-muted-foreground mt-1">
+              Zeus AI is built by <strong>Haider</strong>, a young indie developer, working directly
+              with the community. Every feature, review, and update here reflects the product
+              decisions we make together — reach out any time via the Contact page or email{" "}
+              <a
+                href="mailto:support@cryptic.technology"
+                className="text-primary hover:underline"
+              >
+                support@cryptic.technology
+              </a>
+              .
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="max-w-5xl mx-auto px-6 py-16">
         <h2 className="text-2xl font-semibold mb-6">Our core values</h2>
         <div className="grid md:grid-cols-2 gap-4">

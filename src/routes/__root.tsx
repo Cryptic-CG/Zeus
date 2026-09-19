@@ -83,16 +83,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
 
       // Primary SEO
-      { title: "Zeus AI – AI Programming Tutor & Coding Assistant | Learn to Code Faster" },
+      { title: "Zeus AI – AI Software Engineer & Coding Workspace | Ship Faster" },
       {
         name: "description",
         content:
-          "Zeus AI is your personal AI programming tutor and coding assistant. Get step-by-step code explanations, instant debugging help, and hands-on guidance to learn to code and build software faster.",
+          "Zeus AI is an AI software engineering workspace — chat with your codebase, generate full projects, review code, and ship faster with an AI engineer by your side.",
       },
       {
         name: "keywords",
         content:
-          "Zeus AI, AI programming tutor, AI coding assistant, learn to code with AI, AI code tutor, AI debugging tool, AI software engineer, coding chatbot, learn programming online, AI for developers, code explanation AI, JavaScript AI tutor, Python AI tutor",
+          "Zeus AI, AI software engineer, AI coding assistant, AI code review, generate full project, chat with codebase, AI code workspace, AI for developers, coding chatbot, project generator, AI developer tools, engineer mode",
       },
       { name: "author", content: "Zeus AI" },
       { name: "robots", content: "index, follow" },
@@ -115,28 +115,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:locale", content: "en_US" },
       {
         property: "og:title",
-        content: "Zeus AI – AI Programming Tutor & Coding Assistant",
+        content: "Zeus AI – AI Software Engineer & Coding Workspace",
       },
       {
         property: "og:description",
         content:
-          "Learn to code faster with Zeus AI — an AI-powered programming tutor that explains concepts, debugs errors, and helps you build real software with confidence.",
+          "Chat with your codebase, generate full projects, and review code with Zeus AI — an AI software engineering workspace built to help you ship faster.",
       },
       { property: "og:image", content: `${SITE_URL}/og-image.png` },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: "Zeus AI – AI Programming Tutor & Coding Assistant" },
+      { property: "og:image:alt", content: "Zeus AI – AI Software Engineer & Coding Workspace" },
 
       // Twitter
       { name: "twitter:card", content: "summary_large_image" },
       {
         name: "twitter:title",
-        content: "Zeus AI – AI Programming Tutor & Coding Assistant",
+        content: "Zeus AI – AI Software Engineer & Coding Workspace",
       },
       {
         name: "twitter:description",
         content:
-          "Your personal AI programming tutor. Learn to code, debug errors, and understand projects faster with Zeus AI.",
+          "Chat with your codebase, generate full projects, and review code with Zeus AI — an AI software engineering workspace built to help you ship faster.",
       },
       { name: "twitter:image", content: `${SITE_URL}/og-image.png` },
     ],

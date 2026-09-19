@@ -2,7 +2,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState, useCallback, useEffect, useRef } from "react";
-import { listPublicFeedback, getFeedbackStats, checkAdmin, type FeedbackRow } from "@/lib/feedback.functions";
+import {
+  listPublicFeedback,
+  getFeedbackStats,
+  checkAdmin,
+  type FeedbackRow,
+} from "@/lib/feedback.functions";
 import { MarketingLayout, PageHero } from "@/components/MarketingLayout";
 import { StarRating } from "@/components/feedback/StarRating";
 import { FeedbackCard } from "@/components/feedback/FeedbackCard";
@@ -11,9 +16,41 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Search, Loader2, MessageSquare, TrendingUp, Clock, ThumbsUp, Star, Monitor, Code, CreditCard } from "lucide-react";
+import {
+  Search,
+  Loader2,
+  MessageSquare,
+  TrendingUp,
+  Clock,
+  ThumbsUp,
+  Star,
+  Monitor,
+  Code,
+  CreditCard,
+} from "lucide-react";
 
 export const Route = createFileRoute("/Feedback")({
+  loader: async () => {
+    try {
+      const { listPublicFeedback } = await import("@/lib/feedback.functions");
+      const res = await listPublicFeedback({
+        data: {
+          page: 1,
+          pageSize: 12,
+          category: "all",
+          sort: "newest",
+          search: "",
+        },
+      });
+      return {
+        initialItems: res.items,
+        initialTotal: res.total,
+        initialHasMore: res.items.length === 12,
+      };
+    } catch {
+      return { initialItems: [], initialTotal: 0, initialHasMore: false };
+    }
+  },
   head: () => ({
     meta: [
       { title: "Community Feedback — Zeus AI" },
@@ -56,6 +93,10 @@ const SORT_OPTIONS = [
   { value: "lowest", label: "Lowest Rated", icon: Star },
 ] as const;
 
+type PublicFeedbackItem = FeedbackRow & {
+  profiles: { display_name: string | null; avatar_url: string | null } | null;
+};
+
 function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState(value);
   useEffect(() => {
@@ -66,14 +107,15 @@ function useDebounce<T>(value: T, delay: number): T {
 }
 
 function FeedbackPage() {
+  const { initialItems, initialTotal, initialHasMore } = Route.useLoaderData();
   const [showComposer, setShowComposer] = useState(false);
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState<"newest" | "highest" | "lowest" | "helpful">("newest");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [allItems, setAllItems] = useState<Array<FeedbackRow & { profiles: { display_name: string | null; avatar_url: string | null } | null }>>([]);
-  const [total, setTotal] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  const [allItems, setAllItems] = useState<PublicFeedbackItem[]>(initialItems);
+  const [total, setTotal] = useState(initialTotal);
+  const [hasMore, setHasMore] = useState(initialHasMore);
   const loaderRef = useRef<HTMLDivElement>(null);
 
   const debouncedSearch = useDebounce(search, 300);
