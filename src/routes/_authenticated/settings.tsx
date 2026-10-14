@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { getMe, setLearningMode } from "@/lib/profile.functions";
+import { deleteMyAccount } from "@/lib/account.functions";
 import { UpgradeProButton } from "@/components/UpgradeProButton";
 import { listMyFeedback, deleteFeedback } from "@/lib/feedback.functions";
 import {
@@ -62,6 +63,7 @@ export const Route = createFileRoute("/_authenticated/settings")({
 function SettingsPage() {
   const me = useServerFn(getMe);
   const updMode = useServerFn(setLearningMode);
+  const deleteAccFn = useServerFn(deleteMyAccount);
   const qc = useQueryClient();
   const navigate = useNavigate();
   const { data: profile } = useQuery({ queryKey: ["me"], queryFn: () => me() });
@@ -93,14 +95,30 @@ function SettingsPage() {
     onError: (e: Error) => toast.error(e.message || "Couldn't switch learning mode."),
   });
 
+  const [deleting, setDeleting] = useState(false);
+
   const handleDelete = async () => {
+    if (deleting) return;
+    setDeleting(true);
     try {
-      toast.info("Deletion requested. Email support@cryptic.technology to complete.");
-      await signOutAndClearAuth(qc);
-      navigate({ to: "/auth", replace: true });
+      // Runs server-side with the service role: wipes the user's data and
+      // deletes the auth account itself.
+      await deleteAccFn();
     } catch (error: unknown) {
-      toast.error(error instanceof Error ? error.message : "Couldn't sign out right now.");
+      setDeleting(false);
+      toast.error(error instanceof Error ? error.message : "Couldn't delete your account.");
+      return;
     }
+
+    toast.success("Your account has been deleted.");
+    // The auth user no longer exists — signOut's admin call returns 401/403/404
+    // which supabase-js ignores while still clearing the local session.
+    try {
+      await signOutAndClearAuth(qc);
+    } catch {
+      // Session already invalid; fall through to the redirect.
+    }
+    navigate({ to: "/auth", replace: true });
   };
 
   return (
@@ -343,7 +361,9 @@ function SettingsPage() {
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+                    <AlertDialogAction onClick={handleDelete} disabled={deleting}>
+                      {deleting ? "Deleting…" : "Delete"}
+                    </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
